@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DIY_CNC_Csharp
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            Xpos.Text = ("0");
+            Ypos.Text = ("0");
+            Zpos.Text = ("0");
+        }
+
+        public void xup()
+        {
+
+        }
+
+        public void xdown()
+        {
+
+        }
+
+        public void yup()
+        {
+
+        }
+
+        public void ydown()
+        {
+
+        }
+
+        public void zup()
+        {
+
+        }
+
+        public void zdown()
+        {
+
+        }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Pause_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Stop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void man_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Xplus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Xminus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Yplus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Yminus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Zplus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Zminus_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
