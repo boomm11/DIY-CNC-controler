@@ -1,0 +1,126 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DIY_CNC_Csharp
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            Xpos.Text = ("0");
+            Ypos.Text = ("0");
+            Zpos.Text = ("0");
+        }
+
+        public void xup()
+        {
+            string xpos = (Xpos.Text);
+            int xpossi = int.Parse(xpos);
+            string numberpospossi = (xpossi + 1).ToString();
+            Xpos.Text = (numberpospossi);
+        }
+
+        public void xdown()
+        {
+            string xpos = (Xpos.Text);
+            int xpossi = int.Parse(xpos);
+            string numberpospossi = (xpossi - 1).ToString();
+            Xpos.Text = (numberpospossi);
+        }
+
+        public void yup()
+        {
+            string ypos = (Ypos.Text);
+            int ypossi = int.Parse(ypos);
+            string numberpospossi = (ypossi + 1).ToString();
+            Ypos.Text = (numberpospossi);
+        }
+
+        public void ydown()
+        {
+            string ypos = (Ypos.Text);
+            int ypossi = int.Parse(ypos);
+            string numberpossi = (ypossi - 1).ToString();
+            Ypos.Text = (numberpossi);
+        }
+
+        public void zup()
+        {
+            string zpos = (Zpos.Text);
+            int zpossi = int.Parse(zpos);
+            string numberpossi = (zpossi + 1).ToString();
+            Zpos.Text = (numberpossi);
+        }
+
+        public void zdown()
+        {
+            string zpos = (Zpos.Text);
+            int zpossi = int.Parse(zpos);
+            string numberpossi = (zpossi - 1).ToString();
+            Zpos.Text = (numberpossi);
+        }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Pause_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Stop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void man_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Xplus_Click(object sender, EventArgs e)
+        {
+            xup();
+        }
+
+        private void Xminus_Click(object sender, EventArgs e)
+        {
+            xdown();
+        }
+
+        private void Yplus_Click(object sender, EventArgs e)
+        {
+            yup();
+        }
+
+        private void Yminus_Click(object sender, EventArgs e)
+        {
+            ydown();
+        }
+
+        private void Zplus_Click(object sender, EventArgs e)
+        {
+            zup();
+        }
+
+        private void Zminus_Click(object sender, EventArgs e)
+        {
+            zdown();
+        }
+    }
+}
