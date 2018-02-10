@@ -1,0 +1,32 @@
+int incomingByte = (0);   // for incoming serial data:
+int xUp = (88);            // for moving x positive:
+int yUp = (89);            // for moving y positive:
+int zUp = (90);            // for moving z positive:
+int xDown = (120);          // for moving x negative:
+int yDown = (121);          // for moving y negative:
+int zDown = (122);          // for moving z negative:
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // send data only when you receive data:
+        if (Serial.available() > 0) {
+                // read the incoming byte:
+               int incomingByte = Serial.read();
+
+                // move the axis:
+                if (incomingByte == xUp) {Serial.println("moving X axis positive");}
+                if (incomingByte == yUp){Serial.println("moving Y axis postive");}
+                if (incomingByte == zUp){Serial.println("moving Z axis positive");}
+                if (incomingByte == xDown){Serial.println("moving x axis negative");}
+                if (incomingByte == yDown){Serial.println("moving y axis negative");}
+                if (incomingByte == zDown){Serial.println("moving Z axis negative");}
+        }
+        
+}
