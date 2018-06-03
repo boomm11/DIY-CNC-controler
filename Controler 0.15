@@ -1,0 +1,536 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+
+        public Form1()
+        {
+            InitializeComponent();
+            Xpos.Text = ("0");
+            Ypos.Text = ("0");
+            Zpos.Text = ("0");
+            Xtar.Text = ("0");
+            Ytar.Text = ("0");
+            Ztar.Text = ("0");
+            lineNumber.Text = ("1");
+            autIndc.BackColor = (Color.Red);
+            manIndc.BackColor = (Color.Green);
+            runindc.BackColor = (Color.Red);
+            //CNC.Open();
+        }
+        public void stopFeed()
+        {
+            xupFeed.Stop();
+            xdownFeed.Stop();
+            yupFeed.Stop();
+            ydownFeed.Stop();
+            zupFeed.Stop();
+            zdownFeed.Stop();
+        }
+        
+        public void xup()
+        {           
+            int xpossi = int.Parse(Xpos.Text);
+            string numberpospossi = (xpossi + 1).ToString();
+            Xpos.Text = (numberpospossi);
+            //CNC.Write("X");
+            //ComStatus.Text = (CNC.ReadLine());
+        }
+
+        public void xdown()
+        {
+            int xpossi = int.Parse(Xpos.Text);
+            string numberpospossi = (xpossi - 1).ToString();
+            Xpos.Text = (numberpospossi);
+            //CNC.Write("x");
+            //ComStatus.Text = (CNC.ReadLine());
+        }
+
+        public void yup()
+        {
+            int ypossi = int.Parse(Ypos.Text);
+            string numberpospossi = (ypossi + 1).ToString();
+            Ypos.Text = (numberpospossi);
+            //CNC.Write("Y");
+            //ComStatus.Text = (CNC.ReadLine());
+        }
+
+        public void ydown()
+        {
+            int ypossi = int.Parse(Ypos.Text);
+            string numberpossi = (ypossi - 1).ToString();
+            Ypos.Text = (numberpossi);
+            //CNC.Write("y");
+            //ComStatus.Text = (CNC.ReadLine());
+        }
+
+        public void zup()
+        {
+             int zpossi = int.Parse(Zpos.Text);
+             string numberpossi = (zpossi + 1).ToString();
+             Zpos.Text = (numberpossi);
+             //CNC.Write("Z");
+             //ComStatus.Text = (CNC.ReadLine());
+         }
+
+        public void zdown()
+        {
+            int zpossi = int.Parse(Zpos.Text);
+            string numberpossi = (zpossi - 1).ToString();
+            Zpos.Text = (numberpossi);
+            //CNC.Write("z");
+            //ComStatus.Text = (CNC.ReadLine());
+        }
+
+        private void getToX()
+        {
+            int x = 0;
+            int y = 0;
+            Int32.TryParse(Xpos.Text, out x);
+            Int32.TryParse(Xtar.Text, out y);
+            if (x != y)
+            {
+                int z = y - x;
+                if (z > 0)
+                {
+                    
+                    {
+                        getToXUp.Start();
+                    }
+                }
+                if (z < 0)
+                {
+                    getToXDown.Start();
+                    
+                }
+            }
+        }
+
+        private void getToY()
+        {
+            int x = 0;
+            int y = 0;
+            Int32.TryParse(Ypos.Text, out x);
+            Int32.TryParse(Ytar.Text, out y);
+            if (x != y)
+            {
+                int z = y - x;
+                if (z > 0)
+                {
+
+                    {
+                        getToYUp.Start();
+                    }
+                }
+                if (z < 0)
+                {
+                    getToYDown.Start();
+
+                }
+            }
+        }
+
+        private void getToZ()
+        {
+            int x = 0;
+            int y = 0;
+            Int32.TryParse(Zpos.Text, out x);
+            Int32.TryParse(Ztar.Text, out y);
+            if (x != y)
+            {
+                int z = y - x;
+                if (z > 0)
+                {
+
+                    {
+                        getToZUp.Start();
+                    }
+                }
+                if (z < 0)
+                {
+                    getToZDown.Start();
+
+                }
+            }
+        }
+
+        public void loadLine()
+        {
+            string[] lines = loadedCode.Lines;
+            if (int.Parse(lineNumber.Text) <= lines.Length)
+            {
+                runningCode.Text = loadedCode.Lines[int.Parse(lineNumber.Text)];
+                int linepossi = int.Parse(lineNumber.Text);
+                string linepospossi = (linepossi + 1).ToString();
+                lineNumber.Text = (linepospossi);
+
+                readLine();
+            }
+        }
+
+        public int nextChar(int position)
+        {
+            return 0;
+        }
+
+        public void readLine()
+        {
+            int lenght = (runningCode.Text.Length - 1);
+
+            if (runningCode.Text.Substring(0,1) == "x")
+            {
+                Xtar.Text = runningCode.Text.Substring(1,lenght);
+                gotoall();
+            }
+            else if (runningCode.Text.Substring(0,1) == "y")
+            {
+                Ytar.Text = runningCode.Text.Substring(1,lenght);
+                gotoall();
+            }
+            else if (runningCode.Text.Substring(0,1) == "z")
+            {
+                Ztar.Text = runningCode.Text.Substring(1,lenght);
+                gotoall();
+            }
+            else if (runningCode.Text.Substring(0,3) == "m30")
+            {
+                stop();
+            }
+            //else if (runningCode.Text.Substring(0,2) == "//")
+            //{
+            //    loadLine();
+            //}
+        }
+        
+        public void gotoall()
+        {
+            stopFeed();
+            getToX();
+            getToY();
+            getToZ();
+        }
+
+        public void stop()
+        {
+            stopFeed();
+            lineNumber.Text = ("1");
+            runningCode.Text = ("");
+            runindc.BackColor = (Color.Red);
+        }
+
+        private void Xplus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                xup();
+            }
+        }
+
+        private void Yplus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                yup();
+            }
+        }
+
+        private void Zplus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                zup();
+            }
+        }
+
+        private void Xminus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                xdown();
+            }
+        }
+
+        private void Yminus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                ydown();
+            }
+        }
+
+        private void Zminus_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == (Color.Green))
+            {
+                zdown();
+            }
+        }
+
+        private void man_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+            autIndc.BackColor = (Color.Red);
+            manIndc.BackColor = (Color.Green);
+        }
+
+        private void aut_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+            autIndc.BackColor = (Color.Green);
+            manIndc.BackColor = (Color.Red);
+        }
+
+
+        private void feedStop_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+        }
+
+        private void XplusFeed_Click(object sender, EventArgs e)
+        {
+            xdownFeed.Stop();
+            xupFeed.Start();
+        }
+
+        private void XminusFeed_Click(object sender, EventArgs e)
+        {
+            xupFeed.Stop();
+            xdownFeed.Start();
+        }
+
+        private void YplusFeed_Click(object sender, EventArgs e)
+        {
+            ydownFeed.Stop();
+            yupFeed.Start();
+        }
+
+        private void YminusFeed_Click(object sender, EventArgs e)
+        {
+            yupFeed.Stop();
+            ydownFeed.Start();
+        }
+
+        private void ZplusFeed_Click(object sender, EventArgs e)
+        {
+            zdownFeed.Stop();
+            zupFeed.Start();
+        }
+
+        private void ZminusFeed_Click(object sender, EventArgs e)
+        {
+            zupFeed.Stop();
+            zdownFeed.Start();
+        }
+
+        private void xupFeed_Tick(object sender, EventArgs e)
+        {
+            xup();
+        }
+
+        private void xdownFeed_Tick(object sender, EventArgs e)
+        {
+            xdown();
+        }
+
+        private void yupFeed_Tick(object sender, EventArgs e)
+        {
+            yup();
+        }
+
+        private void ydownFeed_Tick(object sender, EventArgs e)
+        {
+            ydown();
+        }
+
+        private void zupFeed_Tick(object sender, EventArgs e)
+        {
+            zup();
+        }
+
+        private void zdownFeed_Tick(object sender, EventArgs e)
+        {
+            zdown();
+        }
+
+        private void openfile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog codeInput1 = new OpenFileDialog();
+            codeInput1.Filter = "Text Files|*.txt";
+            if (codeInput1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                editBox.LoadFile(codeInput1.FileName,
+                RichTextBoxStreamType.PlainText);
+        }
+
+        private void CodeLoad_Click(object sender, EventArgs e)
+        {
+            loadedCode.Text = editBox.Text;
+        }
+
+        private void gotoX_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+            getToX();
+        }
+
+        private void gotoY_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+            getToY();
+        }
+
+        private void gotoZ_Click(object sender, EventArgs e)
+        {
+            stopFeed();
+            getToZ();
+        }
+
+        private void gotoAll_Click(object sender, EventArgs e)
+        {
+            gotoall();
+        }
+
+        private void getToXUp_Tick(object sender, EventArgs e)
+        {
+            xup();
+            if (int.Parse(Xpos.Text) == int.Parse(Xtar.Text))
+            {
+                getToXUp.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Ypos.Text == Ytar.Text && Zpos.Text == Ztar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void getToXDown_Tick(object sender, EventArgs e)
+        {
+            xdown();
+            if (int.Parse(Xpos.Text) == int.Parse(Xtar.Text))
+            {
+                getToXDown.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Ypos.Text == Ytar.Text && Zpos.Text == Ztar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void getToYUp_Tick(object sender, EventArgs e)
+        {
+            yup();
+            if (int.Parse(Ypos.Text) == int.Parse(Ytar.Text))
+            {
+                getToYUp.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Xpos.Text == Xtar.Text && Zpos.Text == Ztar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void getToYDown_Tick(object sender, EventArgs e)
+        {
+            ydown();
+            if (int.Parse(Ypos.Text) == int.Parse(Ytar.Text))
+            {
+                getToYDown.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Xpos.Text == Xtar.Text && Zpos.Text == Ztar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void getToZUp_Tick(object sender, EventArgs e)
+        {
+            zup();
+            if (int.Parse(Zpos.Text) == int.Parse(Ztar.Text))
+            {
+                getToZUp.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Xpos.Text == Xtar.Text && Ypos.Text == Ytar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void getToZDown_Tick(object sender, EventArgs e)
+        {
+            zdown();
+            if (int.Parse(Zpos.Text) == int.Parse(Ztar.Text))
+            {
+                getToZDown.Stop();
+                if (runindc.BackColor == Color.Green)
+                {
+                    loadLine();
+                }
+            }
+            else if (runindc.BackColor == Color.Green && Xpos.Text == Xtar.Text && Ypos.Text == Ytar.Text)
+            {
+                loadLine();
+            }
+        }
+
+        private void SingleBlock_Click(object sender, EventArgs e)
+        {
+            if (manIndc.BackColor == Color.Green)
+            {
+                readLine();
+            }
+        }
+
+        private void ComsCheck_Click(object sender, EventArgs e)
+        {
+
+            ComStatus.Text = (CNC.ReadLine());
+
+        }
+
+        private void Run_Click(object sender, EventArgs e)
+        {
+            if (autIndc.BackColor == Color.Green)
+            {
+                if (runningCode.Text == "")
+                {
+                    loadLine();
+                    runindc.BackColor = (Color.Green);
+                }
+            }
+        }
+
+        private void Stop_Click(object sender, EventArgs e)
+        {
+            stop();
+        }
+    }
+}
